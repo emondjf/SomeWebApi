@@ -6,24 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Collections;
  
-namespace tinywebapi.Controllers
+namespace SimpleWebApi.Controllers
 {
     [Route("api/[controller]")]
     public class FilesController : Controller
     {
         // GET api/files
         [HttpGet]
-        public ActionResult Get()
+        public ActionResult getFiles()
         {
             string [] dirFiles = Directory.GetFiles(".");
             return Json( new { files=dirFiles } );
         }
- 
-        // GET api/files/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        
+        [HttpGet("{filename}/{fileextension}")]
+        public ActionResult getFileInfo(string filename, string fileextension)
         {
-            return "value";
+            FileInfo fi = new FileInfo(filename+'.'+fileextension);
+            return Json( new { name = filename, size=fi.Length});
         }
     }
 }
